@@ -1,19 +1,28 @@
 public class Survivor {
     private String name;
     private int MaxHP;
-    private int HP ;//TODO this set to default
-    private int Damage ;//TODO this set to default
-    private boolean infected; //TODO set to appropriate
+    private int HP = Constants.DefaultHP;
+    private int Damage = Constants.DefaultDamage;
+    private boolean infected = false;
     private Group group;
 
     @Override
     public String toString() {
-        //TODO this name, HP/MaxHP, Damage, then either Infected or Healthy as appropriate
-
+        String status="";
+        if (infected){
+            status = "Infected";
+        } else{
+            status = "Healthy";
+        }
+        return name + ":"+
+                HP+"/"+MaxHP+" HP" +
+                ", Damage=" + Damage +", "+
+                status ;
     }
 
     public Survivor(String name){
-        //TODO this initialize values
+        setName(name);
+        MaxHP = HP;
 
 
 
@@ -21,57 +30,66 @@ public class Survivor {
 
 
     public void setDamage(int damage) {
-        //TODO this
+        this.Damage = damage;
     }
 
     public void setHP(int HP) {
+        this.HP = HP;
+        if (this.getHP()<=0 && this.infected){
+            System.out.println("Oh no!! " +this.getName() + " is now a Zombie. Watch Out Survivors!");
+//            Group oldGroup = this.group;
+            Zombie.makeZombie(this);
+            if (this.inGroup()){
+                this.group.removeSurvivor(this);
 
-        //TODO this set value of HP and then check if 0, if so and infected make a zombie and remove from group if there
+            }
+//            System.out.println(oldGroup);
 
-
+        }
     }
 
     public void setName(String name) {
-        //TODO this
+        this.name = name;
     }
 
     public String getName() {
-        //TODO this
+        return name;
     }
 
     public int getDamage() {
-        //TODO this
+        return Damage;
     }
 
     public int getHP() {
-        //TODO this
+        return HP;
     }
 
     public boolean isInfected() {
-        //TODO this
+        return infected;
     }
 
     public void setInfected(boolean infected) {
-        //TODO this
+        this.infected = infected;
     }
 
     public boolean inGroup(){
-        //TODO this
+        return this.group != null;
 
     }
     public Group getGroup() {
-        //TODO this
+        return group;
     }
 
     public void setGroup(Group group) {
-        //TODO this
+        this.group = group;
     }
 
     public void leaveGroup(){
-        //TODO this
+        setGroup(null);
     }
 
     public void takeDamage(int damagetaken){
-        //TODO this
+        setHP(this.HP-damagetaken);
     }
 }
+
